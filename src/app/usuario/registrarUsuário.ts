@@ -5,12 +5,14 @@ import SenhaCripto from "@/adapter/auth/SenhaCripto";
 import RepositorioUsuarioPg from "@/adapter/db/RepositorioUsuarioPG";
 
 export default async function registrarUsuario() {
-    Terminalutil.limpar();
-    Terminalutil.titulo("Registrar Usuario");
+    const {limpar, titulo, campoRequerido, sucesso, erro, esperarEnter} = Terminalutil;
 
-    const nome = await Terminalutil.campoRequerido("Nome: ", "Ana da Silva");
-    const email = await Terminalutil.campoRequerido("E-mail: ", "ana@silva.com");
-    const senha = await Terminalutil.campoRequerido("Senha: ", "123456");
+    limpar();
+    titulo("Registrar Usuario");
+
+    const nome = await campoRequerido("Nome: ", "Ana da Silva");
+    const email = await campoRequerido("E-mail: ", "ana@silva.com");
+    const senha = await campoRequerido("Senha: ", "123456");
 
     const usuario: Usuario = {nome, email, senha};
 
@@ -20,11 +22,11 @@ export default async function registrarUsuario() {
 
     try {
         await casoDeUso.executar(usuario);
-        Terminalutil.sucesso("Usuário registrado com sucesso!");
+        sucesso("Usuário registrado com sucesso!");
     } catch (e: any) {
-        Terminalutil.erro(e.message)
+        erro(e.message)
     } finally {
-        await Terminalutil.esperarEnter();
+        await esperarEnter();
     }
 
 }
